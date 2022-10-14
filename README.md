@@ -13,6 +13,7 @@ Purpose: Mount the storage device you want to test to this path
 ```shell
 docker run --rm -v /dev/nvme0n1:/iops 11notes/eth-iops
 ```
+![Outpout](https://github.com/11notes/docker-eth-iops/blob/main/blob/cmd.png?raw=true)
 
 ![Test Passed](https://github.com/11notes/docker-eth-iops/blob/main/blob/passed.png?raw=true)
 
