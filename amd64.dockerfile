@@ -20,7 +20,7 @@
         COPY ./rootfs /
 
 # :: Volumes
-	VOLUME ["/iops/dev"]
+	VOLUME ["/iops"]
 
 # :: Start
 	RUN set -ex; chmod +x /usr/local/bin/entrypoint.sh

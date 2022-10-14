@@ -28,7 +28,7 @@ class FIO{
             process.stdout.write(`Test "${chalk.green.bold(p[0])}" (${((opt.i * 100) / opt.seconds).toFixed(2)}%) @ Blocksize: ${chalk.blue.bold(opt.blockSize)} / Queuedepth: ${chalk.red.bold(opt.depth)} / Type:Random Write`);
             opt.i++;
         }, 1000);
-        this.cli(`opt --name=rw --ioengine=libaio --direct=1 --zero_buffers --rw=${opt.mode} --bs=${opt.blockSize} --numjobs=1 --size=4g --iodepth=${opt.depth} --runtime=${opt.seconds} --time_based --end_fsync=1 --output-format json`)
+        this.cli(`cd /iops && fio --name=rw --ioengine=libaio --direct=1 --zero_buffers --rw=${opt.mode} --bs=${opt.blockSize} --numjobs=1 --size=4g --iodepth=${opt.depth} --runtime=${opt.seconds} --time_based --end_fsync=1 --output-format json`)
             .then((result)=>{
                 clearInterval(opt.int);
                 readline.clearLine(process.stdout, 0);

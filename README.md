@@ -1,16 +1,16 @@
 # docker-eth-iops
 
-Will test the storage mounted in /iops/dev if it's fast enough to run an Ethereum execution node
+Will test the storage mounted in /iops if it's fast enough to run an Ethereum execution node
 
 ## Volumes
 
-/iops/dev
+/iops
 
 Purpose: Mount the storage device you want to test to this path
 
 ## Run
 ```shell
-docker run --rm -v /dev/nvme0n1:/iops/dev 11notes/eth-iops
+docker run --rm -v /dev/nvme0n1:/iops 11notes/eth-iops
 ```
 
 ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
