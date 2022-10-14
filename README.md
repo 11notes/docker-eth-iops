@@ -13,7 +13,12 @@ Purpose: Mount the storage device you want to test to this path
 docker run --rm -v /dev/nvme0n1:/iops 11notes/eth-iops
 ```
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+if you pass:
+![Test Passed](https://github.com/11notes/docker-eth-iops/blob/master/passed.png?raw=true)
+
+
+if you fail:
+![Test Failed](https://github.com/11notes/docker-eth-iops/blob/master/failed.png?raw=true)
 
 ## Run commands
 
