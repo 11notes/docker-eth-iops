@@ -10,10 +10,10 @@ Purpose: Mount the storage device you want to test to this path
 
 ## Run
 ```shell
-docker run --rm \
-    -v /dev/nvme0n1:/iops/dev \
-    -d 11notes/eth-iops
+docker run --rm -v /dev/nvme0n1:/iops/dev 11notes/eth-iops
 ```
+
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 
 ## Run commands
 

@@ -12,6 +12,31 @@ class FIO{
         this.ash = require('child_process').exec;
     }
 
+    test(mode, depth, blockSize){
+        const opt = {
+            mode:mode,
+            seconds:60,
+            depth:depth,
+            blockSize:blockSize,
+            i:0,
+            int:null,
+        };
+
+        opt.int = setInterval(()=>{
+            readline.clearLine(process.stdout, 0);
+            readline.cursorTo(process.stdout, 0, null);
+            process.stdout.write(`Test "${chalk.green.bold(p[0])}" (${((opt.i * 100) / opt.seconds).toFixed(2)}%) @ Blocksize: ${chalk.blue.bold(opt.blockSize)} / Queuedepth: ${chalk.red.bold(opt.depth)} / Type:Random Write`);
+            opt.i++;
+        }, 1000);
+        this.cli(`opt --name=rw --ioengine=libaio --direct=1 --zero_buffers --rw=${opt.mode} --bs=${opt.blockSize} --numjobs=1 --size=4g --iodepth=${opt.depth} --runtime=${opt.seconds} --time_based --end_fsync=1 --output-format json`)
+            .then((result)=>{
+                clearInterval(opt.int);
+                readline.clearLine(process.stdout, 0);
+                readline.cursorTo(process.stdout, 0, null);
+                process.stdout.write(result);
+            });
+    }
+
     async cli(cmd){
         return new Promise((resolve, reject) => {
             this.ash(cmd, (err, stdout, stderr) => {
@@ -67,47 +92,14 @@ class FIO{
 
 (async()=>{
     try{
-        const iops = new FIO();
-        const fio = {
-            seconds:60,
-            depth:1,
-            blockSize:'4k',
-            i:0,
-            int:null,
-        };
+        const fio = new FIO();
         switch(true){
             case /default/i.test(p[0]):      
-                fio.int = setInterval(()=>{
-                    readline.clearLine(process.stdout, 0);
-                    readline.cursorTo(process.stdout, 0, null);
-                    process.stdout.write(`Test "${chalk.green.bold(p[0])}" (${((fio.i * 100) / fio.seconds).toFixed(2)}%) @ Blocksize: ${chalk.blue.bold(fio.blockSize)} / Queuedepth: ${chalk.red.bold(fio.depth)} / Type:Random Write`);
-                    fio.i++;
-                }, 1000);
-                iops.cli(`fio --aux-path /iops/dev --name=rw --ioengine=libaio --direct=1 --rw=randwrite --bs=${fio.blockSize} --numjobs=1 --size=4g --iodepth=${fio.depth} --runtime=${fio.seconds} --time_based --end_fsync=1 --output-format json`)
-                    .then((result)=>{
-                        clearInterval(fio.int);
-                        readline.clearLine(process.stdout, 0);
-                        readline.cursorTo(process.stdout, 0, null);
-                        process.stdout.write(result);
-                    });
+                fio.test('randwrite', 1, '4k');
             break;
 
-            case /write-128-64k/i.test(p[0]):
-                fio.depth = 128;
-                fio.blockSize = '64k';          
-                fio.int = setInterval(()=>{
-                    readline.clearLine(process.stdout, 0);
-                    readline.cursorTo(process.stdout, 0, null);
-                    process.stdout.write(`Test "${chalk.green.bold(p[0])}" (${((fio.i * 100) / fio.seconds).toFixed(2)}%) @ Blocksize: ${chalk.blue.bold(fio.blockSize)} / Queuedepth: ${chalk.red.bold(fio.depth)} / Type:Random Write`);
-                    fio.i++;
-                }, 1000);
-                iops.cli(`fio --aux-path /iops/dev --name=rw --ioengine=libaio --direct=1 --rw=randwrite --bs=${fio.blockSize} --numjobs=1 --size=16g --iodepth=${fio.depth} --runtime=${fio.seconds} --time_based --end_fsync=1 --output-format json`)
-                    .then((result)=>{
-                        clearInterval(fio.int);
-                        readline.clearLine(process.stdout, 0);
-                        readline.cursorTo(process.stdout, 0, null);
-                        process.stdout.write(`${result}\r\n`);
-                    });
+            case /write-16q-16M/i.test(p[0]):
+                fio.test('randwrite', 16, '1M');
             break;
 
             default:
