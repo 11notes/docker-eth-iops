@@ -1,6 +1,7 @@
 # docker-eth-iops
 
-Will test the storage mounted in /iops if it's fast enough to run an Ethereum execution node
+Will test the storage mounted in /iops if it's fast enough to run an Ethereum execution node.
+It is testing the worst possible IO (no cache, no buffer, all disabled) so expect your storage to barely make it.
 
 ## Volumes
 
@@ -14,11 +15,11 @@ docker run --rm -v /dev/nvme0n1:/iops 11notes/eth-iops
 ```
 
 if you pass:
-![Test Passed](https://github.com/11notes/docker-eth-iops/blob/master/passed.png?raw=true)
+![Test Passed](https://github.com/11notes/docker-eth-iops/blob/main/blob/failed.png?raw=true)
 
 
 if you fail:
-![Test Failed](https://github.com/11notes/docker-eth-iops/blob/master/failed.png?raw=true)
+![Test Failed](https://github.com/11notes/docker-eth-iops/blob/main/blob/failed.png?raw=true)
 
 ## Run commands
 
